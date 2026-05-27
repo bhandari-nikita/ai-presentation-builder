@@ -66,6 +66,37 @@ export default function Presentation() {
     setSlides(updatedSlides);
   }
 
+  function addNewSlide() {
+
+    const newSlide = {
+      id: slides.length + 1,
+      type: "title",
+      title: "New Slide",
+      subtitle: "Edit this slide",
+    };
+
+    const updatedSlides = [...slides, newSlide];
+    setSlides(updatedSlides);
+    setCurrentSlide(updatedSlides.length - 1);
+  }
+
+  function deleteSlide() {
+
+    if (slides.length === 1) return;
+
+    const updatedSlides = slides.filter(
+      (_, index) => index !== currentSlide
+    );
+
+    setSlides(updatedSlides);
+
+    if (currentSlide > 0) {
+      setCurrentSlide(currentSlide - 1);
+    } else {
+      setCurrentSlide(0);
+    }
+  }
+
   function renderSlide() {
 
     switch (slide.type) {
@@ -115,6 +146,7 @@ export default function Presentation() {
         slides={slides}
         currentSlide={currentSlide}
         setCurrentSlide={setCurrentSlide}
+        addNewSlide={addNewSlide}
       />
 
       {/* Main Content */}
@@ -132,6 +164,7 @@ export default function Presentation() {
           currentSlide={currentSlide}
           setSlides={setSlides}
           updateSlideField={updateSlideField}
+          deleteSlide={deleteSlide}
         />
 
         {/* Navigation */}
