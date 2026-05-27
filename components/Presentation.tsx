@@ -4,6 +4,7 @@ import { useState } from "react";
 import TitleSlide from "@/slides/TitleSlide";
 import BulletSlide from "@/slides/BulletSlide";
 import QuoteSlide from "@/slides/QuoteSlide";
+import ImageSlide from "@/slides/ImageSlide";
 
 export default function Presentation() {
 
@@ -33,73 +34,124 @@ export default function Presentation() {
       quote: "AI will not replace developers. Developers using AI will replace those who don't.",
       author: "Modern Engineering Reality",
     },
+
+    {
+      id: 4,
+      type: "image",
+      title: "Artificial Intelligence",
+      image:
+        "https://images.unsplash.com/photo-1677442136019-21780ecad995",
+    },
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const slide: any = slides[currentSlide];
 
+  function renderSlide() {
+    switch (slide.type) {
+
+      case "title":
+        return (
+          <TitleSlide
+            title={slide.title}
+            subtitle={slide.subtitle}
+          />
+        );
+
+      case "bullet":
+        return (
+          <BulletSlide
+            title={slide.title}
+            bullets={slide.bullets}
+          />
+        );
+
+      case "quote":
+        return (
+          <QuoteSlide
+            quote={slide.quote}
+            author={slide.author}
+          />
+        );
+
+      case "image":
+        return (
+          <ImageSlide
+            title={slide.title}
+            image={slide.image}
+          />
+        );
+
+      default:
+        return null;
+    }
+  }
+
+
   return (
-    <div className="flex flex-col items-center gap-6">
+    <div className="flex gap-6 items-start">
 
-      <div className="w-[900px] h-[450px] bg-zinc-900 rounded-2xl shadow-2xl overflow-hidden transition-all duration-300">
+      <div className="w-64 h-[450px] bg-zinc-900 rounded-2xl p-4 overflow-y-auto">
 
-        {
-          slides[currentSlide].type === "title" && (
-            <TitleSlide
-              title={slide.title}
-              subtitle={slide.subtitle}
-            />
-          )
-        }
+        <h2 className="text-white font-bold mb-4">
+          Slides
+        </h2>
 
-        {
-          slides[currentSlide].type === "bullet" && (
-            <BulletSlide
-              title={slide.title}
-              bullets={slide.bullets}
-            />
-          )
-        }
+        <div className="space-y-3">
 
-        {
-          slides[currentSlide].type === "quote" && (
-            <QuoteSlide
-              quote={slide.quote}
-              author={slide.author}
-            />
-          )
-        }
+          {slides.map((s: any, index: number) => (
+            <button
+              key={s.id}
+              onClick={() => setCurrentSlide(index)}
+              className={`w-full text-left p-3 rounded-xl transition ${currentSlide === index
+                ? "bg-white text-black"
+                : "bg-zinc-800 text-white hover:bg-zinc-700"
+                }`}
+            >
+              {s.type.charAt(0).toUpperCase() + s.type.slice(1)} Slide
+            </button>
+          ))}
+
+        </div>
 
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col items-center gap-6">
 
-        <button
-          onClick={() =>
-            setCurrentSlide((prev) =>
-              prev > 0 ? prev - 1 : prev
-            )
-          }
-          className="bg-zinc-800 text-white px-4 py-2 rounded-lg hover:bg-zinc-700 transition"
-        >
-          Previous
-        </button>
+        <div className="w-[900px] h-[450px] bg-zinc-900 rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 ease-in-out">
+          {renderSlide()}
+        </div>
 
-        <p className="text-zinc-400">
-          Slide {currentSlide + 1} / {slides.length}
-        </p>
+        <div className="flex items-center gap-4">
 
-        <button
-          onClick={() =>
-            setCurrentSlide((prev) =>
-              prev < slides.length - 1 ? prev + 1 : prev
-            )
-          }
-          className="bg-white text-black px-4 py-2 rounded-lg hover:bg-zinc-200 transition"
-        >
-          Next
-        </button>
+          <button
+            onClick={() =>
+              setCurrentSlide((prev) =>
+                prev > 0 ? prev - 1 : prev
+              )
+            }
+            className="bg-zinc-800 text-white px-4 py-2 rounded-lg hover:bg-zinc-700 transition"
+          >
+            Previous
+          </button>
+
+          <p className="text-zinc-400">
+            Slide {currentSlide + 1} / {slides.length}
+          </p>
+
+          <button
+            onClick={() =>
+              setCurrentSlide((prev) =>
+                prev < slides.length - 1 ? prev + 1 : prev
+              )
+            }
+            className="bg-white text-black px-4 py-2 rounded-lg hover:bg-zinc-200 transition"
+          >
+            Next
+          </button>
+
+        </div>
 
       </div>
 
