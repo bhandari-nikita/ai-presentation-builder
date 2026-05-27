@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import TitleSlide from "@/slides/TitleSlide";
+import BulletSlide from "@/slides/BulletSlide";
+import QuoteSlide from "@/slides/QuoteSlide";
 
 export default function Presentation() {
 
@@ -12,31 +14,62 @@ export default function Presentation() {
       title: "AI Presentation Builder",
       subtitle: "Build beautiful AI-powered presentations",
     },
+
     {
       id: 2,
-      type: "title",
-      title: "Future of AI",
-      subtitle: "How AI will change software engineering",
+      type: "bullet",
+      title: "Core Features",
+      bullets: [
+        "AI-generated presentations",
+        "Dynamic slide layouts",
+        "Editable slides",
+        "PDF export",
+      ],
     },
+
     {
       id: 3,
-      type: "title",
-      title: "Why This Project Matters",
-      subtitle: "AI + Design + Engineering",
+      type: "quote",
+      quote: "AI will not replace developers. Developers using AI will replace those who don't.",
+      author: "Modern Engineering Reality",
     },
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  const slide: any = slides[currentSlide];
+
   return (
     <div className="flex flex-col items-center gap-6">
 
-      <div className="w-[900px] h-[450px] bg-zinc-900 rounded-2xl shadow-2xl overflow-hidden">
+      <div className="w-[900px] h-[450px] bg-zinc-900 rounded-2xl shadow-2xl overflow-hidden transition-all duration-300">
 
-        <TitleSlide
-          title={slides[currentSlide].title}
-          subtitle={slides[currentSlide].subtitle}
-        />
+        {
+          slides[currentSlide].type === "title" && (
+            <TitleSlide
+              title={slide.title}
+              subtitle={slide.subtitle}
+            />
+          )
+        }
+
+        {
+          slides[currentSlide].type === "bullet" && (
+            <BulletSlide
+              title={slide.title}
+              bullets={slide.bullets}
+            />
+          )
+        }
+
+        {
+          slides[currentSlide].type === "quote" && (
+            <QuoteSlide
+              quote={slide.quote}
+              author={slide.author}
+            />
+          )
+        }
 
       </div>
 
