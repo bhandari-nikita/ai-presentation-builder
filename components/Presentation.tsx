@@ -217,6 +217,7 @@ export default function Presentation() {
         currentSlide={currentSlide}
         setCurrentSlide={setCurrentSlide}
         addNewSlide={addNewSlide}
+        setSlides={setSlides}
       />
 
       {/* Main Content */}
