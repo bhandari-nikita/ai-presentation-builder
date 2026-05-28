@@ -70,6 +70,10 @@ export default function Presentation() {
   }, [slides]);
 
   const slide: any = slides[currentSlide];
+  const [isGenerating, setIsGenerating] =
+    useState(false);
+
+  const [prompt, setPrompt] = useState("");
 
   if (!slide) return null;
 
@@ -167,6 +171,67 @@ export default function Presentation() {
     setSlides(updatedSlides);
   }
 
+async function generatePresentation() {
+
+  if (!prompt.trim()) return;
+
+  setIsGenerating(true);
+
+  try {
+
+    await new Promise((resolve) =>
+      setTimeout(resolve, 1500)
+    );
+
+    const generatedSlides = [
+
+      {
+        id: Date.now(),
+        type: "title",
+        title: prompt,
+        subtitle: "AI-generated presentation",
+      },
+
+      {
+        id: Date.now() + 1,
+        type: "bullet",
+        title: "Key Concepts",
+        bullets: [
+          "Introduction",
+          "Core Ideas",
+          "Applications",
+          "Future Impact",
+        ],
+      },
+
+      {
+        id: Date.now() + 2,
+        type: "quote",
+        quote:
+          "Artificial intelligence is the new electricity.",
+        author: "Andrew Ng",
+      },
+
+      {
+        id: Date.now() + 3,
+        type: "image",
+        title: "Visual Overview",
+        image:
+          "https://images.unsplash.com/photo-1677442136019-21780ecad995",
+      },
+
+    ];
+
+    setSlides(generatedSlides);
+
+    setCurrentSlide(0);
+
+  } finally {
+
+    setIsGenerating(false);
+  }
+}
+
   function renderSlide() {
 
     switch (slide.type) {
@@ -222,6 +287,39 @@ export default function Presentation() {
 
       {/* Main Content */}
       <div className="flex flex-col items-center gap-6">
+
+        <div className="w-[900px] bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 rounded-2xl p-6">
+
+          <h2 className="text-white text-2xl font-bold mb-4">
+            Generate Presentation
+          </h2>
+
+          <div className="flex gap-4">
+
+            <input
+              type="text"
+              placeholder="Enter presentation topic..."
+              value={prompt}
+              onChange={(e) =>
+                setPrompt(e.target.value)
+              }
+              className="flex-1 bg-zinc-950 border border-zinc-800 focus:border-zinc-600 transition text-white p-4 rounded-xl outline-none"
+            />
+
+            <button
+              disabled={isGenerating}
+              onClick={generatePresentation}
+              className={`px-6 rounded-xl font-semibold transition ${isGenerating
+                  ? "bg-zinc-700 text-zinc-400 cursor-not-allowed"
+                  : "bg-white text-black hover:bg-zinc-200"
+                }`}
+            >
+              {isGenerating ? "Generating..." : "Generate"}
+            </button>
+
+          </div>
+
+        </div>
 
         {/* Presentation Preview */}
         <div className="w-[900px] h-[450px] bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 ease-in-out">
