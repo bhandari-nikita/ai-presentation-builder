@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import TitleSlide from "@/slides/TitleSlide";
 import BulletSlide from "@/slides/BulletSlide";
@@ -52,7 +52,26 @@ export default function Presentation() {
 
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  useEffect(() => {
+    const savedSlides = localStorage.getItem(
+      "presentation-slides"
+    );
+
+    if (savedSlides) {
+      setSlides(JSON.parse(savedSlides));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "presentation-slides",
+      JSON.stringify(slides)
+    );
+  }, [slides]);
+
   const slide: any = slides[currentSlide];
+
+  if (!slide) return null;
 
   function updateSlideField(field: string, value: string) {
 
@@ -69,7 +88,7 @@ export default function Presentation() {
   function addNewSlide() {
 
     const newSlide = {
-      id: slides.length + 1,
+      id: Date.now(),
       type: "title",
       title: "New Slide",
       subtitle: "Edit this slide",
@@ -95,6 +114,57 @@ export default function Presentation() {
     } else {
       setCurrentSlide(0);
     }
+  }
+
+  function changeSlideType(type: string) {
+
+    const updatedSlides = [...slides];
+
+    switch (type) {
+
+      case "title":
+        updatedSlides[currentSlide] = {
+          id: slide.id,
+          type: "title",
+          title: "New Title",
+          subtitle: "New Subtitle",
+        };
+        break;
+
+      case "bullet":
+        updatedSlides[currentSlide] = {
+          id: slide.id,
+          type: "bullet",
+          title: "Bullet Slide",
+          bullets: [
+            "Point 1",
+            "Point 2",
+            "Point 3",
+          ],
+        };
+        break;
+
+      case "quote":
+        updatedSlides[currentSlide] = {
+          id: slide.id,
+          type: "quote",
+          quote: "New Quote",
+          author: "Author",
+        };
+        break;
+
+      case "image":
+        updatedSlides[currentSlide] = {
+          id: slide.id,
+          type: "image",
+          title: "Image Slide",
+          image:
+            "https://images.unsplash.com/photo-1677442136019-21780ecad995",
+        };
+        break;
+    }
+
+    setSlides(updatedSlides);
   }
 
   function renderSlide() {
@@ -165,6 +235,7 @@ export default function Presentation() {
           setSlides={setSlides}
           updateSlideField={updateSlideField}
           deleteSlide={deleteSlide}
+          changeSlideType={changeSlideType}
         />
 
         {/* Navigation */}

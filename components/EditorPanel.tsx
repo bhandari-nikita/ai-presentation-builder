@@ -8,6 +8,7 @@ interface EditorPanelProps {
         value: string
     ) => void;
     deleteSlide: () => void;
+    changeSlideType: (type: string) => void;
 }
 
 export default function EditorPanel({
@@ -17,6 +18,7 @@ export default function EditorPanel({
     setSlides,
     updateSlideField,
     deleteSlide,
+    changeSlideType,
 }: EditorPanelProps) {
 
     return (
@@ -25,6 +27,31 @@ export default function EditorPanel({
             <h2 className="text-white text-2xl font-bold mb-6">
                 Edit Slide
             </h2>
+
+            <h2 className="text-white text-2xl font-bold mb-6">
+                Edit Slide
+            </h2>
+
+            <div className="mb-6">
+
+                <label className="block text-zinc-400 mb-2">
+                    Slide Type
+                </label>
+
+                <select
+                    value={slide.type}
+                    onChange={(e) =>
+                        changeSlideType(e.target.value)
+                    }
+                    className="w-full bg-zinc-800 text-white p-3 rounded-xl outline-none"
+                >
+                    <option value="title">Title</option>
+                    <option value="bullet">Bullet</option>
+                    <option value="quote">Quote</option>
+                    <option value="image">Image</option>
+                </select>
+
+            </div>
 
             {(slide.type === "title" ||
                 slide.type === "bullet" ||
