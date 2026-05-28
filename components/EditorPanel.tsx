@@ -22,7 +22,7 @@ export default function EditorPanel({
 }: EditorPanelProps) {
 
     return (
-        <div className="w-[900px] bg-zinc-900 rounded-2xl p-6">
+        <div className="w-[900px] bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 rounded-2xl p-6">
 
             <h2 className="text-white text-2xl font-bold mb-6">
                 Edit Slide
@@ -43,7 +43,7 @@ export default function EditorPanel({
                     onChange={(e) =>
                         changeSlideType(e.target.value)
                     }
-                    className="w-full bg-zinc-800 text-white p-3 rounded-xl outline-none"
+                    className="w-full bg-zinc-950 border border-zinc-800 focus:border-zinc-600 transition text-white p-3 rounded-xl outline-none"
                 >
                     <option value="title">Title</option>
                     <option value="bullet">Bullet</option>

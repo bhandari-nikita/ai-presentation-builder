@@ -46,20 +46,35 @@ function SortableSlideItem({
 
     return (
         <button
-            ref={setNodeRef}
-            style={style}
-            {...attributes}
-            {...listeners}
-            onClick={() => setCurrentSlide(index)}
-            className={`w-full text-left p-3 rounded-xl transition ${currentSlide === index
-                ? "bg-white text-black"
-                : "bg-zinc-800 text-white hover:bg-zinc-700"
-                }`}
-        >
-            {slide.type.charAt(0).toUpperCase() +
-                slide.type.slice(1)}{" "}
-            Slide
-        </button>
+  ref={setNodeRef}
+  style={style}
+  {...attributes}
+  {...listeners}
+  onClick={() => setCurrentSlide(index)}
+  className={`w-full rounded-2xl overflow-hidden border transition ${
+    currentSlide === index
+      ? "border-white"
+      : "border-zinc-800 hover:border-zinc-600"
+  }`}
+>
+
+  <div className="aspect-video bg-zinc-800 flex items-center justify-center p-3">
+
+    <p className="text-sm font-semibold text-center text-white line-clamp-2">
+      {slide.title ||
+        slide.quote ||
+        "Untitled Slide"}
+    </p>
+
+  </div>
+
+  <div className="bg-zinc-900 px-3 py-2 text-xs text-zinc-400 text-left">
+    {slide.type.charAt(0).toUpperCase() +
+      slide.type.slice(1)}{" "}
+    Slide
+  </div>
+
+</button>
     );
 }
 
@@ -95,9 +110,9 @@ export default function Sidebar({
         setSlides(updatedSlides);
         setCurrentSlide(newIndex);
     }
-    
+
     return (
-        <div className="w-64 h-[700px] bg-zinc-900 rounded-2xl p-4 overflow-y-auto">
+        <div className="w-72 h-[700px] bg-zinc-900/80 backdrop-blur-xl rounded-2xl p-4 overflow-y-auto border border-zinc-800">
 
             <h2 className="text-white font-bold mb-4">
                 Slides

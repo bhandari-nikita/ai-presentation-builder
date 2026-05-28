@@ -224,7 +224,7 @@ export default function Presentation() {
       <div className="flex flex-col items-center gap-6">
 
         {/* Presentation Preview */}
-        <div className="w-[900px] h-[450px] bg-zinc-900 rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 ease-in-out">
+        <div className="w-[900px] h-[450px] bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 ease-in-out">
           {renderSlide()}
         </div>
 
